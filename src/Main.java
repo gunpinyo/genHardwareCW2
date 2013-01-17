@@ -6,11 +6,23 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 
+		/*boolx[] kmap = { boolx.F,boolx.F,boolx.T,boolx.F
+			           , boolx.T,boolx.T,boolx.T,boolx.F
+			           , boolx.F,boolx.T,boolx.T,boolx.T
+			           , boolx.F,boolx.T,boolx.F,boolx.F
+				       };
+
+		Utility.rep4varKmap(kmap);
+		System.out.println(KarnaughMapGrader.grade(4, kmap, true));
+		
+		if(true)
+			return;*/
+		
 		BufferedReader br = new BufferedReader (
 								new InputStreamReader(System.in));
-		System.out.print("Type your id number : ");
+		System.out.print("Type your id number                                         : ");
 		int idNum = Integer.parseInt(br.readLine())%30+1;
-		System.out.print("How many kmap do you want to see : ");
+		System.out.print("How many kmap do you want to see (-1 for just the best(s) ) : ");
 		int numShowedState = Integer.parseInt(br.readLine());
 		
 		Permutation perm = new Permutation(8,7);
@@ -51,8 +63,14 @@ public class Main {
 		
 		Arrays.sort(states);
 		
-		for(int i=0;i<numShowedState;i++)
+		if(numShowedState >= 0) {
+			for(int i=0;i<numShowedState;i++)
 				hwcw2PrintState(states[i]);
+		} else {
+			for(int i=0;i<states.length;i++)
+				if(states[i].score == states[0].score)
+					hwcw2PrintState(states[i]);
+		}
 	}
 	
 	public static void hwcw2UpdateAssignment(int[] assignment,Permutation perm) {

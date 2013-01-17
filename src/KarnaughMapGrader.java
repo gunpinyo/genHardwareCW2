@@ -23,9 +23,9 @@ public class KarnaughMapGrader {
 		return result;
 	}
 	
-	public static int numVarInPattern(int pattern) {
+	public static int numVarInPattern(int size,int pattern) {
 		int n = 0;
-		for(;pattern!=0;pattern/=3)
+		for(;size>0;size--,pattern/=3)
 			if(pattern%3 != 2)
 				n++;
 		return n;
@@ -60,8 +60,12 @@ public class KarnaughMapGrader {
 	}
 	
 	protected static boolean deletable(int numVar,int pattern,int prefix) {
-		if(numVar == 0)
-			return numLayer[reverseDigit(totalVar,2,prefix)] > 1;
+		if(numVar == 0) {
+			int curPosition = reverseDigit(totalVar,2,prefix);
+			if(kmap[curPosition] == boolx.X)
+				return numLayer[curPosition] > 0;
+			return numLayer[curPosition] > 1;
+		}
 		switch(pattern%3) {
 			case 0: return deletable(numVar-1,pattern/3,prefix*2+0);
 			case 1: return deletable(numVar-1,pattern/3,prefix*2+1);
@@ -87,7 +91,7 @@ public class KarnaughMapGrader {
 		for(int numVar=totalVar;numVar>=0;numVar--)
 			for(int pattern=0;pattern<powInt(3,totalVar);pattern++) {
 				if(!groupAbility[pattern]);
-				else if(numVarInPattern(pattern) != numVar);
+				else if(numVarInPattern(totalVar,pattern) != numVar);
 				else if(deletable(totalVar,pattern,0))
 					updateLabel(totalVar,pattern,0,-1);
 				else
